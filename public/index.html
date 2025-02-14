@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is a website for Trainers to log their Pokemon">
+    <meta name="keywords" content="Pokemon Log">
+    <meta name="author" content="Devin Mihaichuk">
+
+    <script>
+        window.onload = async function() {
+            const loggedIn = localStorage.getItem('loggedIn');
+            if (loggedIn !== 'true') {
+                window.location.href = 'login.html';
+            }
+
+            const addButton = document.querySelector("#addbut");
+            const removeButton = document.querySelector("#rembut")
+            const logoutButton = document.querySelector("#logout");
+            addButton.onclick = add;
+            removeButton.onclick = remove;
+            logoutButton.onclick = logout;
+
+            const body = JSON.stringify({"Trainer": localStorage.getItem('trainer')})
+
+            const response = await fetch("/load", {
+                method: 'POST',
+                body: body
+            });
+
+            const text = await response.text()
+            let pokemonList = JSON.parse(text)
+
+            generateTable(pokemonList);
+        };
+    </script>
+</head>
+<body>
+<button id="logout">Logout</button>
+<div class="grid-container">
+    <h2 class="grid-title">Pokemon Database</h2>
+    <ul class="grid-instruction">
+        <li>To add a new Pokemon, enter a Pokemon's name that is not already registered and their stats and finish by clicking Add/Edit</li>
+        <li>To modify a Pokemon's data, enter a Pokemon's name and the new stats you want entered and finish by clicking Add/Edit</li>
+        <li>To delete a Pokemon's data, enter at least a Pokemon's name and finish by clicking Remove</li>
+    </ul>
+    <form class="grid-form">
+        <label for="pkmnName">Pokemon's Name: </label><input class=".nes-input" type="text" id="pkmnName" maxlength="20"> <br/>
+        <label for="pkmnSpecies"> Pokemon's Species:</label><input type="text" id="pkmnSpecies"><br>
+        <label for="pkmnHP">Pokemon's HP Stat: </label><input type="text" id="pkmnHP"> <br/>
+        <label for="pkmnAttack">Pokemon's Attack Stat: </label><input type="text" id="pkmnAttack"> <br/>
+        <label for="pkmnDefense">Pokemon's Defense Stat: </label><input type="text" id="pkmnDefense"> <br/>
+        <label for="pkmnSpAttack">Pokemon's Special Attack Stat: </label><input type="text" id="pkmnSpAttack"> <br/>
+        <label for="pkmnSpDefense">Pokemon's Special Defense Stat: </label><input type="text" id="pkmnSpDefense"> <br/>
+        <label for="pkmnSpeed">Pokemon's Speed Stat: </label><input type="text" id="pkmnSpeed"> <br/>
+        <input type="radio" id="m" name="pkmnGender" value="Male">
+        <label for="m">Male</label>
+        <input type="radio" id="f" name="pkmnGender" value="Female">
+        <label for="f">Female</label>
+        <input type="radio" id="n" name="pkmnGender" value="Genderless" checked>
+        <label for="n">Genderless</label> <br/>
+        <label for="pkmnShiny">Is Shiny? </label><input type="checkbox" id="pkmnShiny"> <br/>
+        <button id="addbut">Add/Edit</button><button id="rembut">Remove</button>
+    </form>
+    <h2 class="grid-results">Results</h2>
+    <b id="info" class="grid-table"></b>
+</div>
+</body>
+</html>

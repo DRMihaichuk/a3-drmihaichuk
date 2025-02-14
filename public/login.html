@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- get rid of favicon error -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Login Page for Pokemon Database">
+    <meta name="keywords" content="Pokemon Database">
+
+    <script>
+        async function login() {
+            const trainer = document.getElementById('trainer').value,
+                password = document.getElementById('password').value,
+                json = {Trainer: trainer, Password: password};
+
+            let body = JSON.stringify(json)
+
+            const response = await fetch( "/login", {
+                method:'POST',
+                body
+            })
+            console.log(response)
+
+            const text = await response.text()
+            const user = JSON.parse(text);
+            console.log(user);
+
+            if (user !== null) {
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('trainer', user.Trainer);
+                console.log('Logged in');
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid credentials!');
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="grid-container" onsubmit="event.preventDefault(); login();">
+    <h2 class="grid-title">Login</h2>
+    <form class="center">
+        <label for="trainer">Trainer:</label><input type="text" id="trainer" required><br>
+        <label for="password">Password: </label><input type="password" id="password" required> <br/>
+        <button type="submit" id="login">Login</button>
+    </form>
+</div>
+</body>
+</html>

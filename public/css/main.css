@@ -1,0 +1,21 @@
+table, td, th {
+    border: 1px solid;
+    min-width: 8vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#addbut {
+    background-color: #00FF00;
+}
+
+#rembut {
+    background-color: red;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
