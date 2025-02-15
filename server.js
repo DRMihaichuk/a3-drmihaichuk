@@ -5,7 +5,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 
-const url = "mongodb://localhost:27017/";
+const url = "mongodb+srv://drmihaichuk:Bls294652!@cluster0.prazh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const dbconnect = new MongoClient(url);
 
 async function run() {
