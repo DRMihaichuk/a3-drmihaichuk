@@ -32,7 +32,7 @@ async function run() {
         });
     })
 
-    app.post("/login", (req, res) => {
+    app.post("/login", async (req, res) => {
         let dataString = "";
 
         req.on( "data", function( data ) {
