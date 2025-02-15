@@ -18,7 +18,11 @@ async function run() {
     })
 
     app.post("/load", async (req, res) => {
-        let dataString = req.body;
+        let dataString = "";
+
+        req.on( "data", function( data ) {
+            dataString += data;
+        });
 
         req.on( "end", async () => {
             let user = JSON.parse( dataString );
@@ -29,7 +33,11 @@ async function run() {
     })
 
     app.post("/login", (req, res) => {
-        let dataString = req.body;
+        let dataString = "";
+
+        req.on( "data", function( data ) {
+            dataString += data;
+        });
 
         req.on( "end", async () => {
             let userauth = JSON.parse( dataString );
@@ -40,7 +48,11 @@ async function run() {
     })
 
     app.post("/add", (req, res) => {
-        let dataString = req.body;
+        let dataString = "";
+
+        req.on( "data", function( data ) {
+            dataString += data;
+        });
 
         req.on( "end", async () => {
             console.log( JSON.parse( dataString ) );
@@ -78,7 +90,11 @@ async function run() {
     });
 
     app.post("/remove", (req, res) => {
-        let dataString = req.body;
+        let dataString = "";
+
+        req.on( "data", function( data ) {
+            dataString += data;
+        });
 
         req.on("end", async function () {
             console.log(JSON.parse(dataString));
